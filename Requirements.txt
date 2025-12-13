@@ -1,3 +1,0 @@
-pandas
-echo "bcrypt==4.2.0" >> Requirements.txt
-
