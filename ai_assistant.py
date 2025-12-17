@@ -10,9 +10,12 @@ client = OpenAI(
 )
 
 def generate_ai_response(text):
-    response = client.responses.create(
-        model="gpt-5-nano",
-        input=text
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",  # or "gpt-4" if you have access
+        messages=[
+            {"role": "user", "content": text}
+        ]
     )
-    return response.output_text
+    return response.choices[0].message.content
+
 
