@@ -72,7 +72,7 @@ Week 9: Web Interface & Visualizations
 
 Week 10: AI Integration
 
-- Google Gemini AI integration
+- ChatGPT OpenAI AI integration
 - Context-aware AI assistant for each domain
 - Automated trend analysis and recommendations
 - Interactive chat interface
@@ -130,7 +130,7 @@ CW2_CST1510_M00991038/
 ```
    
    Get your OpenAI API key from: **https://platform.openai.com/api-keys**
-   
+
 4. Initialize the Database
 bashpython database.py
 This will:
