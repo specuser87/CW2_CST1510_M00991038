@@ -142,7 +142,7 @@ else:
 
 # ==================== CRUD OPERATIONS ====================
 st.markdown("---")
-st.subheader("➕ Manage Incidents")
+st.subheader(" Manage Incidents")
 
 tab1, tab2, tab3 = st.tabs(["Create", "Update", "Delete"])
 
@@ -187,7 +187,7 @@ with tab2:
                     status=new_status,
                     date_resolved=date_resolved.strftime('%Y-%m-%d') if new_status == "Resolved" else None
                 )
-                st.success(f"✅ Incident {update_id} updated!")
+                st.success(f" Incident {update_id} updated!")
                 st.rerun()
     else:
         st.info("No incidents to update")
@@ -197,18 +197,18 @@ with tab3:
     if not df.empty:
         with st.form("delete_incident"):
             delete_id = st.selectbox("Select Incident to Delete", df['incident_id'].tolist())
-            st.warning("⚠️ This action cannot be undone!")
+            st.warning(" This action cannot be undone!")
             
             if st.form_submit_button("Delete Incident", use_container_width=True, type="primary"):
                 db.delete_incident(delete_id)
-                st.success(f"✅ Incident {delete_id} deleted!")
+                st.success(f" Incident {delete_id} deleted!")
                 st.rerun()
     else:
         st.info("No incidents to delete")
 
 # ==================== INSIGHTS ====================
 st.markdown("---")
-st.subheader("💡 Key Insights")
+st.subheader(" Key Insights")
 
 if not df.empty:
     # Most common threat
@@ -221,14 +221,14 @@ if not df.empty:
     col1, col2 = st.columns(2)
     with col1:
         st.info(f"""
-        **🎯 Most Common Threat:** {most_common_threat}
+        ** Most Common Threat:** {most_common_threat}
         - {threat_count} incidents ({(threat_count/total_incidents*100):.1f}% of total)
         - Recommendation: Increase training on {most_common_threat} prevention
         """)
     
     with col2:
         st.warning(f"""
-        **⚠️ High Priority Alert:** {high_open} high-severity incidents are open
+        ** High Priority Alert:** {high_open} high-severity incidents are open
         - Immediate attention required
         - Assign additional analysts if needed
         """)

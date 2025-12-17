@@ -15,7 +15,7 @@ if 'logged_in' not in st.session_state:
     st.session_state.username = None
     st.session_state.role = None
 
-st.title("🔐User Authentication")
+st.title("User Authentication")
 
 # checking if the user is already logged in
 if st.session_state.logged_in:
@@ -36,7 +36,7 @@ if st.session_state.logged_in:
 
 #creating the tabs for login and register
 
-tab1, tab2 = st.tabs(["🔑Login", "📝Register"])
+tab1, tab2 = st.tabs(["Login", "Register"])
 
 # ========================== LOGIN TAB ==========================
 with tab1:
@@ -46,11 +46,11 @@ with tab1:
         username = st.text_input("username",placeholder="Enter your username") 
         password = st.text_input("password", type="password", placeholder="Enter your password")
 
-        submitted = st.form_submit_button("🔓 Login", use_container_width=True)
+        submitted = st.form_submit_button(" Login", use_container_width=True)
 
         if submitted:
             if not username or not password:
-             st.error("❌ Please enter both username and password")
+             st.error(" Please enter both username and password")
         else:
             # to verify the credentials
             if st.session_state.db.verify_user_password(username, password):
@@ -73,7 +73,7 @@ with tab1:
                 st.rerun()
 
             else:
-                st.error("❌ Invalid username or password")
+                st.error(" Invalid username or password")
 
 
 # ================================= Tab where the user registers ================================= 
@@ -87,16 +87,16 @@ with tab2:
        confirm_password = st.text_input("Confirm Password", type="password", placeholder="Re-enter password")   
        role = st.selectbox("Role", ["user", "analyst", "admin"])
 
-       submitted = st.form_submit_button("📝 Register", use_container_width=True)
+       submitted = st.form_submit_button(" Register", use_container_width=True)
 
        if submitted:
            #This section is to validate
            if not new_username or not new_password:
-               st.error("❌ Please fill in all fields")
+               st.error(" Please fill in all fields")
            elif new_password != confirm_password:
-               st.error("❌ Password do not match")
+               st.error(" Password do not match")
            elif len(new_password) < 6:
-               st.error("❌ Password must be at least 6 characters")
+               st.error(" Password must be at least 6 characters")
            else:
                #checking if the user exists
                existing_user = st.session_state.db.get_user_by_username(new_username)

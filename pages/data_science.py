@@ -9,22 +9,22 @@ import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime
 
-st.set_page_config(page_title="Data Science", page_icon="📊", layout="wide")
+st.set_page_config(page_title="Data Science", page_icon="", layout="wide")
 
 # Check if logged in
 if 'logged_in' not in st.session_state or not st.session_state.logged_in:
-    st.warning("⚠️ Please login first")
+    st.warning(" Please login first")
     st.stop()
 
 # Get database
 db = st.session_state.db
 
-st.title("📊 Data Science Dashboard")
+st.title(" Data Science Dashboard")
 st.markdown(f"**Logged in as:** {st.session_state.username} ({st.session_state.role})")
 st.markdown("---")
 
 # ==================== KEY METRICS ====================
-st.subheader("📈 Dataset Overview")
+st.subheader(" Dataset Overview")
 
 # Get all datasets
 datasets = db.get_all_datasets()
@@ -54,7 +54,7 @@ if not df.empty:
 
 # ==================== VISUALIZATIONS ====================
 st.markdown("---")
-st.subheader("📊 Analytics & Insights")
+st.subheader(" Analytics & Insights")
 
 if not df.empty:
     col1, col2 = st.columns(2)
@@ -102,7 +102,7 @@ if not df.empty:
 
 # ==================== DATA TABLE ====================
 st.markdown("---")
-st.subheader("🗂️ All Datasets")
+st.subheader(" All Datasets")
 
 if not df.empty:
     # Filters
@@ -114,11 +114,19 @@ if not df.empty:
             default=df['source_department'].unique()
         )
     with col2:
+     min_size = float(df['file_size_mb'].min())
+     max_size = float(df['file_size_mb'].max())
+    
+    # Check if min and max are the same
+    if min_size == max_size:
+        st.info(f"Only one dataset size: {min_size} MB")
+        size_range = (min_size, max_size)
+    else:
         size_range = st.slider(
             "File Size Range (MB)",
-            min_value=float(df['file_size_mb'].min()),
-            max_value=float(df['file_size_mb'].max()),
-            value=(float(df['file_size_mb'].min()), float(df['file_size_mb'].max()))
+            min_value=min_size,
+            max_value=max_size,
+            value=(min_size, max_size)
         )
     
     # Apply filters
@@ -141,7 +149,7 @@ else:
 
 # ==================== CRUD OPERATIONS ====================
 st.markdown("---")
-st.subheader("➕ Manage Datasets")
+st.subheader(" Manage Datasets")
 
 tab1, tab2, tab3 = st.tabs(["Create", "Update", "Delete"])
 
@@ -165,10 +173,10 @@ with tab1:
                     file_size_mb, row_count, owner
                 )
                 if success:
-                    st.success(f"✅ Dataset '{dataset_name}' added!")
+                    st.success(f" Dataset '{dataset_name}' added!")
                     st.rerun()
                 else:
-                    st.error(f"❌ Dataset '{dataset_name}' already exists")
+                    st.error(f" Dataset '{dataset_name}' already exists")
             else:
                 st.error("Please enter a dataset name")
 
@@ -190,7 +198,7 @@ with tab2:
                     file_size_mb=new_size,
                     row_count=new_rows
                 )
-                st.success(f"✅ Dataset '{update_name}' updated!")
+                st.success(f" Dataset '{update_name}' updated!")
                 st.rerun()
     else:
         st.info("No datasets to update")
@@ -200,18 +208,18 @@ with tab3:
     if not df.empty:
         with st.form("delete_dataset"):
             delete_name = st.selectbox("Select Dataset to Delete", df['dataset_name'].tolist())
-            st.warning("⚠️ This action cannot be undone!")
+            st.warning(" This action cannot be undone!")
             
             if st.form_submit_button("Delete Dataset", use_container_width=True, type="primary"):
                 db.delete_dataset(delete_name)
-                st.success(f"✅ Dataset '{delete_name}' deleted!")
+                st.success(f" Dataset '{delete_name}' deleted!")
                 st.rerun()
     else:
         st.info("No datasets to delete")
 
 # ==================== INSIGHTS & RECOMMENDATIONS ====================
 st.markdown("---")
-st.subheader("💡 Data Governance Insights")
+st.subheader(" Data Governance Insights")
 
 if not df.empty:
     # Find largest datasets
@@ -226,7 +234,7 @@ if not df.empty:
     
     with col1:
         st.info(f"""
-        **📦 Storage Recommendations:**
+        ** Storage Recommendations:**
         - Largest dataset: {large_datasets.iloc[0]['dataset_name']} ({large_datasets.iloc[0]['file_size_mb']:.1f} MB)
         - Top 3 datasets consume {large_datasets['file_size_mb'].sum():.1f} MB ({(large_datasets['file_size_mb'].sum()/total_size*100):.1f}% of total)
         - Consider archiving datasets older than 6 months
@@ -234,7 +242,7 @@ if not df.empty:
     
     with col2:
         st.warning(f"""
-        **🏢 Department Analysis:**
+        ** Department Analysis:**
         - {highest_dept} department uses the most storage: {highest_usage:.1f} MB
         - Total departments: {df['source_department'].nunique()}
         - Recommendation: Implement data lifecycle policies for {highest_dept}
@@ -243,7 +251,7 @@ if not df.empty:
     # Resource consumption alert
     if total_size > 500:
         st.error(f"""
-        ⚠️ **Storage Alert:** Total storage exceeds 500 MB ({total_size:.1f} MB)
+         **Storage Alert:** Total storage exceeds 500 MB ({total_size:.1f} MB)
         - Consider implementing data archiving policies
         - Review datasets for potential deletion or compression
         """)

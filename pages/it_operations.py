@@ -9,22 +9,22 @@ import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime
 
-st.set_page_config(page_title="IT Operations", page_icon="💻", layout="wide")
+st.set_page_config(page_title="IT Operations", page_icon="", layout="wide")
 
 # Check if logged in
 if 'logged_in' not in st.session_state or not st.session_state.logged_in:
-    st.warning("⚠️ Please login first")
+    st.warning(" Please login first")
     st.stop()
 
 # Get database
 db = st.session_state.db
 
-st.title("💻 IT Operations Dashboard")
+st.title(" IT Operations Dashboard")
 st.markdown(f"**Logged in as:** {st.session_state.username} ({st.session_state.role})")
 st.markdown("---")
 
 # ==================== KEY METRICS ====================
-st.subheader("🎫 Service Desk Metrics")
+st.subheader(" Service Desk Metrics")
 
 # Get all tickets
 tickets = db.get_all_tickets()
@@ -53,7 +53,7 @@ if not df.empty:
 
 # ==================== VISUALIZATIONS ====================
 st.markdown("---")
-st.subheader("📊 Performance Analytics")
+st.subheader(" Performance Analytics")
 
 if not df.empty:
     col1, col2 = st.columns(2)
@@ -134,7 +134,7 @@ if not df.empty:
 
 # ==================== DATA TABLE ====================
 st.markdown("---")
-st.subheader("🗂️ All Tickets")
+st.subheader(" All Tickets")
 
 if not df.empty:
     # Filters
@@ -178,7 +178,7 @@ else:
 
 # ==================== CRUD OPERATIONS ====================
 st.markdown("---")
-st.subheader("➕ Manage Tickets")
+st.subheader(" Manage Tickets")
 
 tab1, tab2, tab3 = st.tabs(["Create", "Update", "Delete"])
 
@@ -202,10 +202,10 @@ with tab1:
                     date_created.strftime('%Y-%m-%d')
                 )
                 if success:
-                    st.success(f"✅ Ticket {ticket_id} created!")
+                    st.success(f" Ticket {ticket_id} created!")
                     st.rerun()
                 else:
-                    st.error(f"❌ Ticket {ticket_id} already exists")
+                    st.error(f" Ticket {ticket_id} already exists")
             else:
                 st.error("Please enter a Ticket ID")
 
@@ -230,7 +230,7 @@ with tab2:
                     date_resolved=date_resolved.strftime('%Y-%m-%d') if new_status in ["Resolved", "Closed"] else None,
                     resolution_time_hours=resolution_hours if resolution_hours > 0 else None
                 )
-                st.success(f"✅ Ticket {update_id} updated!")
+                st.success(f" Ticket {update_id} updated!")
                 st.rerun()
     else:
         st.info("No tickets to update")
@@ -240,18 +240,18 @@ with tab3:
     if not df.empty:
         with st.form("delete_ticket"):
             delete_id = st.selectbox("Select Ticket to Delete", df['ticket_id'].tolist())
-            st.warning("⚠️ This action cannot be undone!")
+            st.warning(" This action cannot be undone!")
             
             if st.form_submit_button("Delete Ticket", use_container_width=True, type="primary"):
                 db.delete_ticket(delete_id)
-                st.success(f"✅ Ticket {delete_id} deleted!")
+                st.success(f"Ticket {delete_id} deleted!")
                 st.rerun()
     else:
         st.info("No tickets to delete")
 
 # ==================== INSIGHTS & RECOMMENDATIONS ====================
 st.markdown("---")
-st.subheader("💡 Performance Insights")
+st.subheader(" Performance Insights")
 
 if not df.empty:
     # Find slowest staff member
@@ -274,7 +274,7 @@ if not df.empty:
     
     with col1:
         st.info(f"""
-        **📊 Workload Analysis:**
+        ** Workload Analysis:**
         - Most common issue: {most_common_category} ({category_count} tickets, {(category_count/total_tickets*100):.1f}%)
         - {high_open} high-priority tickets are currently open
         - Recommendation: Allocate more resources to {most_common_category} support
@@ -283,14 +283,14 @@ if not df.empty:
     with col2:
         if slowest_staff != "N/A":
             st.warning(f"""
-            **⚠️ Performance Alert:**
+            ** Performance Alert:**
             - Staff member with slowest avg resolution: {slowest_staff} ({slowest_time:.1f} hours)
             - Consider additional training or workload redistribution
             - Review "Waiting for User" status tickets for delays
             """)
         else:
             st.success("""
-            **✅ Good Performance:**
+            ** Good Performance:**
             - No significant performance issues detected
             - Continue monitoring resolution times
             """)
@@ -299,7 +299,7 @@ if not df.empty:
     waiting_tickets = len(df[df['status'] == 'Waiting for User'])
     if waiting_tickets > 0:
         st.error(f"""
-        🚨 **Process Bottleneck Detected:**
+         **Process Bottleneck Detected:**
         - {waiting_tickets} tickets are in "Waiting for User" status
         - This may indicate communication delays or unclear requirements
         - Recommendation: Implement automated user reminders and clearer ticket descriptions
