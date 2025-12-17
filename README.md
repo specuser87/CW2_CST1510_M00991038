@@ -110,16 +110,27 @@ CW2_CST1510_M00991038/
 ├── README.md                       # This file
 └── requirements.txt                # Python dependencies
 
-Installation & Setup
-1. Clone the Repository
-bashgit clone [your-repo-url]
-cd CW2_CST1510_M00991038
-2. Install Dependencies
-bashpip install -r requirements.txt
-3. Set Up Environment Variables
-Create a .env file in the project root:
-GEMINI_API_KEY=your_gemini_api_key_here
-Get your Gemini API key from: https://aistudio.google.com/app/apikey
+## Installation & Setup
+
+1. **Clone the Repository**
+```bash
+   git clone [your-repo-url]
+   cd CW2_CST1510_M00991038
+```
+
+2. **Install Dependencies**
+```bash
+   pip install -r requirements.txt
+```
+
+3. **Set Up Environment Variables**
+   Create a `.env` file in the project root:
+```
+   OPENAI_API_KEY=your_openai_api_key_here
+```
+   
+   Get your OpenAI API key from: **https://platform.openai.com/api-keys**
+   
 4. Initialize the Database
 bashpython database.py
 This will:
@@ -194,5 +205,3 @@ Acknowledgments
 
 Course materials from CST1510
 Streamlit documentation
-ChatGPT OpenAI API
-Plotly visualization library
